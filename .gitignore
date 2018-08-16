@@ -1,0 +1,9 @@
+__pycache__
+Procfile
+
+#the local database
+data.db
+
+#idea files
+.idea/
+.idea/*
