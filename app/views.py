@@ -16,13 +16,14 @@ import heapq
 import random
 from urllib import request as req
 from bs4 import BeautifulSoup
+import re
 
 COUNTER = 0
 
 NO_OF_RATINGS_TO_TRIGGER_ALGORITHM = 2
 NUM_OF_MOVIES_TO_USE = 1000
 NUM_OF_MOVIES_TO_RECOMMEND = 3
-IMDB_URL_STRING = 'http://www.imdb.com/title/tt'
+IMDB_URL_STRING = 'http://www.imdb.com/title/tt0'
 
 ####################
 ######## Add an algorithm to update the movie features as well but with small learning rate
@@ -64,13 +65,12 @@ def random_preference():
 
 
 def get_poster_and_description(imdb_id):
+    print("We are here")
     url = IMDB_URL_STRING + str(imdb_id)
-    print(url)
     soup = BeautifulSoup(req.urlopen(url).read(), "lxml")
-    print(soup)
-    image_link = soup.find(itemprop="image")
-    description = soup.find(itemprop="description").text
-    return image_link.get("src"), description
+    poster_image_block = soup.find("div", {"class": "poster"})
+    description = soup.find("div", {"class": "summary_text"}).get_text()
+    return poster_image_block.a.img['src'], description
 
 
 def get_avg_predicted_rating(user, movies):

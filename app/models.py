@@ -7,6 +7,7 @@ ratings = db.Table('ratings',
 		db.Column('rating', db.Integer)
 	)
 
+
 class Preference(db.Model):
 	__tablename__ = 'preferences'
 	id = db.Column(db.Integer, primary_key=True)
@@ -14,10 +15,11 @@ class Preference(db.Model):
 	comedy = db.Column(db.Float)
 	action = db.Column(db.Float)
 	romance = db.Column(db.Float)
-	scifi = db.Column(db.Float) 
+	scifi = db.Column(db.Float)
 
 	def __repr__(self):
 		return '<Preference %r %r %r %r>' % (self.comedy, self.action, self.romance, self.scifi)
+
 
 class User(UserMixin, db.Model):
 	__tablename__ = 'users'
@@ -25,7 +27,6 @@ class User(UserMixin, db.Model):
 	username = db.Column(db.String(42), unique=True)
 	password = db.Column(db.String(42))
 	rated = db.relationship('Movie', secondary=ratings, backref='raters', lazy='dynamic')
-	
 
 	def __init__(self, username, password):
 		self.username = username
@@ -42,6 +43,7 @@ class User(UserMixin, db.Model):
 
 # 	def __repr__(self):
 # 		return '<Imdb %r %r>' % (self.movie_id, self.imdb_id)
+
 
 class Movie(db.Model):
 	__tablename__ = 'movies'
